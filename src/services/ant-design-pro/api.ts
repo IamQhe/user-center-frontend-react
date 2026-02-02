@@ -1,28 +1,41 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from '@umijs/max';
+import request from "@/globalRequest"
+import BaseResponse = API.BaseResponse;
 
-/** 获取当前的用户 GET /api/currentUser */
+/** 获取当前的用户 GET /api/user/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
-    data: API.CurrentUser;
-  }>('/api/currentUser', {
-    method: 'GET',
-    ...(options || {}),
-  });
-}
-
-/** 退出登录接口 POST /api/login/outLogin */
-export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/login/outLogin', {
+    data: BaseResponse<API.CurrentUser>;
+  }>('/api/user/currentUser', {
     method: 'POST',
     ...(options || {}),
   });
 }
 
-/** 登录接口 POST /api/login/account */
-export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login/account', {
+/** 退出登录接口 POST /api/user/logout */
+export async function outLogin(options?: { [key: string]: any }) {
+  return request<BaseResponse<undefined>>('/api/user/logout', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
+/** 登录接口 POST /api/user/login */
+export async function login(body: API.LoginRequest, options?: { [key: string]: any }) {
+  return request<BaseResponse<API.CurrentUser>>('/api/user/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 注册接口 POST /api/user/register */
+export async function register(body: API.RegisterRequest, options?: { [key: string]: any }) {
+  return request<BaseResponse<API.RegisterResponse>>('/api/user/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

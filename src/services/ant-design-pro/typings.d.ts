@@ -2,12 +2,20 @@
 /* eslint-disable */
 
 declare namespace API {
-  type LoginUser = {
+  type BaseResponse<T> = {
+    code?: number;
+    data?: T;
+    message?: string;
+    description?: string;
+  }
+
+  type CurrentUser = {
     userName?: string;
     userAccount?: string;
-    userAvatar?: string;
+    userAvatarUrl?: string;
     userRole?: number;
     userId?: number;
+    userPhone?: string;
     userGender?: number;
     userEmail?: string;
   };
@@ -24,25 +32,8 @@ declare namespace API {
     invitationCode?: string;
   }
 
-  type CurrentUser = {
-    name?: string;
-    avatar?: string;
-    userid?: string;
-    email?: string;
-    signature?: string;
-    title?: string;
-    group?: string;
-    tags?: { key?: string; label?: string }[];
-    notifyCount?: number;
-    unreadCount?: number;
-    country?: string;
-    access?: string;
-    geographic?: {
-      province?: { label?: string; key?: string };
-      city?: { label?: string; key?: string };
-    };
-    address?: string;
-    phone?: string;
+  type RegisterResponse = {
+    userId?: number;
   };
 
   type LoginResult = {

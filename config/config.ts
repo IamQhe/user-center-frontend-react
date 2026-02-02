@@ -1,12 +1,10 @@
 // https://umijs.org/config/
 
-import { join } from 'node:path';
 import { defineConfig } from '@umijs/max';
+import { join } from 'node:path';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
-
 import routes from './routes';
-
 const { REACT_APP_ENV = 'dev' } = process.env;
 
 /**
@@ -15,7 +13,6 @@ const { REACT_APP_ENV = 'dev' } = process.env;
  * @doc https://umijs.org/docs/api/config#publicpath
  */
 const PUBLIC_PATH: string = '/';
-
 export default defineConfig({
   /**
    * @name 开启 hash 模式
@@ -23,9 +20,7 @@ export default defineConfig({
    * @doc https://umijs.org/docs/api/config#hash
    */
   hash: true,
-
   publicPath: PUBLIC_PATH,
-
   /**
    * @name 兼容性设置
    * @description 设置 ie11 不一定完美兼容，需要检查自己使用的所有依赖
@@ -100,17 +95,7 @@ export default defineConfig({
   /**
    * @name 国际化插件
    * @doc https://umijs.org/docs/max/i18n
-   */
-  locale: {
-    // default zh-CN
-    default: 'zh-CN',
-    antd: true,
-    // default true, when it is true, will use `navigator.language` overwrite default
-    baseNavigator: true,
-
-
-  },
-  /**
+   */ /**
    * @name antd 插件
    * @description 内置了 babel import 插件
    * @doc https://umijs.org/docs/max/antd#antd
@@ -169,7 +154,7 @@ export default defineConfig({
     },
   ],
   mock: {
-    include: ['mock/**/*', 'src/pages/**/_mock.ts'],
+    include: ['mock/**/*', 'src/pages/**/_mock.ts','mock/*'],
   },
   /**
    * @name 是否开启 mako
@@ -180,5 +165,5 @@ export default defineConfig({
   esbuildMinifyIIFE: true,
   requestRecord: {},
   exportStatic: {},
-  favicons: ['/favicon.ico']
+  favicons: ['/favicon.ico'],
 });
