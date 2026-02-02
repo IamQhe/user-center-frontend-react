@@ -45,6 +45,28 @@ export async function register(body: API.RegisterRequest, options?: { [key: stri
   });
 }
 
+/** 用户列表接口 POST /api/user/admin/search */
+export async function searchUserList(body: API.UserQueryRequest, options?: { [key: string]: any }) {
+  return request<BaseResponse<API.CurrentUser[]>>('/api/user/admin/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export async function userList(body: API.UserQueryRequest, options?: { [key: string]: any }) {
+  const users = await searchUserList(body, options);
+
+  return {
+    data: users,
+    // total
+    // success
+  }
+}
+
 /** 此处后端没有提供注释 GET /api/notices */
 export async function getNotices(options?: { [key: string]: any }) {
   return request<API.NoticeIconList>('/api/notices', {

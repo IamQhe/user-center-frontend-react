@@ -43,6 +43,11 @@ export default [
         name: 'sub-page',
         component: './Admin',
       },
+      {
+        path: '/admin/user',
+        name: '用户管理',
+        component: './admin/user',
+      }
     ],
   },
   {
@@ -54,11 +59,6 @@ export default [
   {
     path: '/',
     redirect: '/welcome',
-  },
-  {
-    path: '/new',
-    name: '新页面',
-    component: './NewPage',
   },
   {
     path: '*',

@@ -10,14 +10,17 @@ declare namespace API {
   }
 
   type CurrentUser = {
+    userId?: number;
     userName?: string;
     userAccount?: string;
     userAvatarUrl?: string;
     userRole?: number;
-    userId?: number;
+    userStatus?: number;
     userPhone?: string;
     userGender?: number;
     userEmail?: string;
+    createTime?: string;
+    updateTime?: string;
   };
 
   type LoginRequest = {
@@ -36,16 +39,25 @@ declare namespace API {
     userId?: number;
   };
 
-  type LoginResult = {
-    status?: string;
-    type?: string;
-    currentAuthority?: string;
+  type UserQueryRequest = CurrentUser & {
+    startCreateTime?: string;
+    endCreateTime?: string;
+    startUpdateTime?: string;
+    endUpdateTime?: string;
   };
 
   type PageParams = {
     current?: number;
     pageSize?: number;
   };
+
+  type UserListItem = CurrentUser & {}
+
+  type UserList = {
+    data?: UserListItem[];
+    total?: number;
+    success?: boolean;
+  }
 
   type RuleListItem = {
     key?: number;
