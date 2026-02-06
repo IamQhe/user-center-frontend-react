@@ -53,10 +53,18 @@ declare namespace API {
 
   type UserListItem = CurrentUser & {}
 
-  type UserList = {
-    data?: UserListItem[];
-    total?: number;
-    success?: boolean;
+  type BatchRemoveUserRequest = {
+    userIdList?: number[];
+  }
+
+  type SwitchStatusRequest = {
+    userIdList?: string[];
+    userStatus?: number;
+  }
+
+  type BatchSwitchStatusRequest = {
+    userIdList?: number[];
+    userStatus?: number;
   }
 
   type RuleListItem = {

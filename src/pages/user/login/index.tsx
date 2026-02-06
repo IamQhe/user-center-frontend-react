@@ -149,6 +149,7 @@ const Login: React.FC = () => {
           title="用户中心"
           formRef={formRef}
           subTitle={'我登楼观百川，入海即入我怀'}
+          submitter={{ searchConfig: {submitText: type === 'login' ? "登录" : "注册"}}}
           onFinish={async (values) => {
             if (type === 'login') {
               await handleLoginSubmit(values as API.LoginRequest);
@@ -184,7 +185,7 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <UserOutlined/>,
                 }}
-                placeholder= '请输入用户名'
+                placeholder='请输入用户名'
                 rules={[
                   {
                     required: true,
@@ -226,11 +227,29 @@ const Login: React.FC = () => {
                   },
                 ]}
               />
+              <div
+                style={{
+                  marginBottom: 24,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-end',
+                }}
+              >
+                <a
+                  style={{
+                    float: 'right',
+                  }}
+                  href={"https://github.com/IamQhe"}
+                  target={"_blank"}
+                >
+                  忘记密码请联系管理员
+                </a>
+              </div>
             </>
           )}
 
           {result !== 'ok' && type === 'register' && (
-            <LoginMessage content={result} />
+            <LoginMessage content={result}/>
           )}
           {type === 'register' && (
             <>

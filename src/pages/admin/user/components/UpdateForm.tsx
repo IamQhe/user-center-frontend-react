@@ -1,39 +1,29 @@
-import { updateRule } from '@/services/ant-design-pro/api';
+import { updateUser } from '@/services/ant-design-pro/api';
 import {
-  ProFormDateTimePicker,
-  ProFormRadio,
+  DrawerForm,
   ProFormSelect,
   ProFormText,
-  ProFormTextArea,
-  StepsForm,
 } from '@ant-design/pro-components';
 import { useRequest } from '@umijs/max';
-import { Modal, message } from 'antd';
+import { message } from 'antd';
 import React, { cloneElement, useCallback, useState } from 'react';
-export type FormValueType = {
-  target?: string;
-  template?: string;
-  type?: string;
-  time?: string;
-  frequency?: string;
-} & Partial<API.CurrentUser>;
 export type UpdateFormProps = {
   trigger?: React.ReactElement<any>;
   onOk?: () => void;
-  values: Partial<API.CurrentUser>;
+  values: Partial<API.UserListItem>;
 };
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
   const { onOk, values, trigger } = props;
   const [open, setOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
-  const { run } = useRequest(updateRule, {
+  const { run } = useRequest(updateUser, {
     manual: true,
     onSuccess: () => {
-      messageApi.success('Configuration is successful');
+      messageApi.success('更新成功');
       onOk?.();
     },
     onError: () => {
-      messageApi.error('Configuration failed, please try again!');
+      messageApi.error('更新失败，请重试');
     },
   });
   const onCancel = useCallback(() => {
@@ -44,10 +34,12 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
   }, []);
   const onFinish = useCallback(
     async (values?: any) => {
-      await run({
-        data: values,
-      });
+      const res = await updateUser(values as API.UserListItem);
+      if (!res) {
+        return;
+      }
       onCancel();
+      onOk?.();
     },
     [onCancel, run],
   );
@@ -59,124 +51,95 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
             onClick: onOpen,
           })
         : null}
-      <StepsForm
-        stepsProps={{
-          size: 'small',
+      <DrawerForm<API.UserListItem>
+        title="修改用户信息"
+        autoFocusFirstInput
+        open={open}
+        drawerProps={{
+          destroyOnClose: true,
+          onClose: onCancel,
         }}
-        stepsFormRender={(dom, submitter) => {
-          return (
-            <Modal
-              width={640}
-              bodyStyle={{
-                padding: '32px 40px 48px',
-              }}
-              destroyOnClose
-              title={'规则配置'}
-              open={open}
-              footer={submitter}
-              onCancel={onCancel}
-            >
-              {dom}
-            </Modal>
-          );
-        }}
+        initialValues={values}
+        submitTimeout={2000}
         onFinish={onFinish}
       >
-        <StepsForm.StepForm initialValues={values} title={'基本信息'}>
-          <ProFormText
-            name="name"
-            label={'规则名称'}
-            width="md"
-            rules={[
-              {
-                required: true,
-                message: '请输入规则名称！',
-              },
-            ]}
-          />
-          <ProFormTextArea
-            name="desc"
-            width="md"
-            label={'规则描述'}
-            placeholder={'请输入至少五个字符'}
-            rules={[
-              {
-                required: true,
-                message: '请输入至少五个字符的规则描述！',
-                min: 5,
-              },
-            ]}
-          />
-        </StepsForm.StepForm>
-        <StepsForm.StepForm
-          initialValues={{
-            target: '0',
-            template: '0',
-          }}
-          title={'配置规则属性'}
-        >
-          <ProFormSelect
-            name="target"
-            width="md"
-            label={'监控对象'}
-            valueEnum={{
-              0: '表一',
-              1: '表二',
-            }}
-          />
-          <ProFormSelect
-            name="template"
-            width="md"
-            label={'规则模板'}
-            valueEnum={{
-              0: '规则模板一',
-              1: '规则模板二',
-            }}
-          />
-          <ProFormRadio.Group
-            name="type"
-            label={'规则类型'}
-            options={[
-              {
-                value: '0',
-                label: '强',
-              },
-              {
-                value: '1',
-                label: '弱',
-              },
-            ]}
-          />
-        </StepsForm.StepForm>
-        <StepsForm.StepForm
-          initialValues={{
-            type: '1',
-            frequency: 'month',
-          }}
-          title={'设定调度周期'}
-        >
-          <ProFormDateTimePicker
-            name="time"
-            width="md"
-            label={'开始时间'}
-            rules={[
-              {
-                required: true,
-                message: '请选择开始时间！',
-              },
-            ]}
-          />
-          <ProFormSelect
-            name="frequency"
-            label={'监控对象'}
-            width="md"
-            valueEnum={{
-              month: '月',
-              week: '周',
-            }}
-          />
-        </StepsForm.StepForm>
-      </StepsForm>
+        <ProFormText
+          name="userId"
+          label="用户Id"
+          width="md"
+          disabled
+        />
+        <ProFormText
+          name="userName"
+          label="用户名称"
+          width="md"
+          rules={[
+            {
+              required: true,
+              message: '请输入用户姓名！',
+            },
+          ]}
+        />
+        <ProFormText
+          name="userAccount"
+          label="用户账号"
+          width="md"
+          rules={[
+            {
+              required: true,
+              message: '请输入用户姓名！',
+            },
+          ]}
+        />
+        <ProFormSelect
+          name="userRole"
+          label="用户身份"
+          width="md"
+          options={[
+            {value: 0, label: '普通用户'},
+            {value: 1, label: '管理员'},
+          ]}
+          placeholder="请选择身份"
+          rules={[{ required: true, message: '请选择身份' }]}
+        />
+        <ProFormSelect
+          name="userStatus"
+          label="用户状态"
+          width="md"
+          options={[
+            {value: 0, label: '停用'},
+            {value: 1, label: '启用'},
+          ]}
+          placeholder="请选择用户状态"
+          rules={[{ required: true, message: '请选择用户状态' }]}
+        />
+        <ProFormSelect
+          name="userGender"
+          label="用户性别"
+          width="md"
+          options={[
+            {value: 0, label: '女'},
+            {value: 1, label: '男'},
+          ]}
+          placeholder="请选择性别"
+        />
+        <ProFormText
+          name="userEmail"
+          label="邮箱"
+          width="md"
+          rules={[
+            {
+              type: 'email',
+              message: '请输入有效的邮箱地址！',
+            },
+          ]}
+        />
+        <ProFormText
+          name="userPhone"
+          label="手机号"
+          width="md"
+        />
+      </DrawerForm>
     </>
   );
 };

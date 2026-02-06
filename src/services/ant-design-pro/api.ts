@@ -59,12 +59,65 @@ export async function searchUserList(body: API.UserQueryRequest, options?: { [ke
 
 export async function userList(body: API.UserQueryRequest, options?: { [key: string]: any }) {
   const users = await searchUserList(body, options);
-
   return {
     data: users,
-    // total
-    // success
   }
+}
+
+/** 更新用户接口 POST /api/user/admin/update */
+export async function updateUser(body: API.UserListItem, options?: { [key: string]: any }) {
+  return request<BaseResponse<boolean>>('/api/user/admin/update', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 删除用户接口 POST /api/user/admin/delete */
+export async function removeUser(body: API.UserListItem,options?: { [key: string]: any }) {
+  return request<BaseResponse<boolean>>('/api/user/admin/delete', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body
+  });
+}
+
+/** 删除用户接口 POST /api/user/admin/deleteList */
+export async function batchRemoveUser(body: API.BatchRemoveUserRequest,options?: { [key: string]: any }) {
+  return request<BaseResponse<boolean>>('/api/user/admin/batchDelete', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body
+  });
+}
+
+/** 修改用户状态 POST /api/user/admin/switchStatus */
+export async function switchStatus(body: API.SwitchStatusRequest,options?: { [key: string]: any }) {
+  return request<BaseResponse<boolean>>('/api/user/admin/switchStatus', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body
+  });
+}
+
+/** 批量修改用户状态 POST /api/user/admin/batchSwitchStatus */
+export async function batchSwitchStatus(body: API.BatchSwitchStatusRequest,options?: { [key: string]: any }) {
+  return request<BaseResponse<boolean>>('/api/user/admin/batchSwitchStatus', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body
+  });
 }
 
 /** 此处后端没有提供注释 GET /api/notices */
