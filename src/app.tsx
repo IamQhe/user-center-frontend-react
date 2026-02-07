@@ -34,8 +34,6 @@ export async function getInitialState(): Promise<{
   const { location } = history;
   if (![loginPath, '/user/register', '/user/register-result'].includes(location.pathname)) {
     const currentUser = await fetchUserInfo();
-    console.log(currentUser);
-    console.log(location.pathname);
     return {
       fetchUserInfo,
       currentUser,

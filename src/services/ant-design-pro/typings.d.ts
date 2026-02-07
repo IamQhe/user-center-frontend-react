@@ -67,6 +67,12 @@ declare namespace API {
     userStatus?: number;
   }
 
+  type ResetPasswordRequest = {
+    userId?: number;
+    password?: string;
+    checkPassword?: string;
+  }
+
   type RuleListItem = {
     key?: number;
     disabled?: boolean;

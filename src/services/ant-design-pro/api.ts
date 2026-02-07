@@ -120,6 +120,17 @@ export async function batchSwitchStatus(body: API.BatchSwitchStatusRequest,optio
   });
 }
 
+/** 重置用户密码 POST /api/user/resetPassword */
+export async function resetPassword(body: API.ResetPasswordRequest,options?: { [key: string]: any }) {
+  return request<BaseResponse<boolean>>('/api/user/resetPassword', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body
+  });
+}
+
 /** 此处后端没有提供注释 GET /api/notices */
 export async function getNotices(options?: { [key: string]: any }) {
   return request<API.NoticeIconList>('/api/notices', {

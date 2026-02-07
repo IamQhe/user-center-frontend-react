@@ -187,6 +187,7 @@ const TableList: React.FC = () => {
         />,
         <a
           style={{color: '#ff4d4f'}}
+          key="delete"
           onClick={() => {
             Modal.confirm({
               title: "确定要删除用户 " + record.userAccount + " 吗？",

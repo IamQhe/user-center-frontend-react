@@ -39,22 +39,11 @@ export default [
         redirect: '/admin/sub-page',
       },
       {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        component: './Admin',
-      },
-      {
         path: '/admin/user',
         name: '用户管理',
         component: './admin/user',
       }
     ],
-  },
-  {
-    name: '列表',
-    icon: 'table',
-    path: '/list',
-    component: './table-list',
   },
   {
     path: '/',

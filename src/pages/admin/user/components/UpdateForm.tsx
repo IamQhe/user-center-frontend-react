@@ -7,6 +7,7 @@ import {
 import { useRequest } from '@umijs/max';
 import { message } from 'antd';
 import React, { cloneElement, useCallback, useState } from 'react';
+import ResetPasswordButton from '@/pages/admin/user/components/ResetPasswordButton';
 export type UpdateFormProps = {
   trigger?: React.ReactElement<any>;
   onOk?: () => void;
@@ -55,6 +56,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         title="修改用户信息"
         autoFocusFirstInput
         open={open}
+        layout="horizontal"
         drawerProps={{
           destroyOnClose: true,
           onClose: onCancel,
@@ -62,6 +64,20 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         initialValues={values}
         submitTimeout={2000}
         onFinish={onFinish}
+        submitter={{
+          searchConfig: {
+            submitText: '保存修改',
+          },
+          render: (props, dom) => [
+            dom[0],
+            <ResetPasswordButton
+              key="reset"
+              userId={values.userId!}
+              buttonText="重置密码"
+            />,
+            dom[1],
+          ],
+        }}
       >
         <ProFormText
           name="userId"
@@ -73,12 +89,6 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
           name="userName"
           label="用户名称"
           width="md"
-          rules={[
-            {
-              required: true,
-              message: '请输入用户姓名！',
-            },
-          ]}
         />
         <ProFormText
           name="userAccount"

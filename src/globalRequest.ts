@@ -5,20 +5,13 @@ import {stringify} from "@ant-design/pro-utils";
 
 const request = extend({
   credentials: 'include', // 保持不同请求的 sessionId 一致，维持登录态
-  prefix: "http://localhost:8080",
+  prefix: process.env.NODE_ENV === 'production' ? "http://localhost:8080" : undefined
 })
-
-/**
- * 请求路径
- */
-
 
 /**
  * 全局请求拦截器
  */
 request.interceptors.request.use((url, options): any => {
-  console.log(`request url: ${url}`);
-
   return {
     url,
     options: {
@@ -32,7 +25,7 @@ request.interceptors.request.use((url, options): any => {
 })
 
 /**
- * 全局请求拦截器
+ * 全局响应拦截器
  */
 request.interceptors.response.use( async (response, options): Promise<any> => {
   const res = await response.clone().json();
